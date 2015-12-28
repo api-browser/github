@@ -1,0 +1,57 @@
+- if github_response.is_a? GithubResponseCollection
+  table.table.table-striped.table-bordered
+    tbody
+      - github_response.each do |g|
+        = render partial: "github_response", locals: {github_response: g}
+
+- elsif github_response.present?
+  tr
+    td
+      .row
+        .col-xs-6
+          code
+            | {
+            - github_response.attributes.each do |k,v|
+              - if v.is_a?(GithubResponseCollection)
+                - v.each do |g|
+                  = render partial: "github_response", locals: {github_response: g}
+              - elsif v.is_a?(GithubResponse)
+                = render partial: "github_response", locals: {github_response: v}
+              - else
+                .row
+                  .col-sm-6
+                    .pull-right= "  #{k.as_json}:"
+                  .col-sm-6
+                    span="#{v.as_json.inspect},"
+
+            | }
+        - if github_response.non_self_links.any?
+          .col-xs-6
+            - github_response.non_self_links.sort.each do |name, template|
+              - if template
+                - if template.pattern =~ /{/
+                  .btn.btn-sm.btn-primary onclick="expandForm(this, #{template.pattern.inspect})"
+                    = name
+                - else
+                  = link_to name, template.expand, class: "btn btn-sm btn-secondary"
+            - if github_response.nestings.any?
+              table.table.table-striped.table-bordered
+                tbody
+                  - github_response.nestings.each do |nesting|
+                    tr
+                      td
+                        - if nesting.self_link
+                          h3= link_to nesting.name, nesting.self_link_href
+                        - else
+                          h3= nesting.name
+                        = render partial: "github_response", locals: {github_response: nesting}
+
+
+
+
+
+
+- else
+  = github_response
+
+
