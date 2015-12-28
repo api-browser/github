@@ -9,7 +9,6 @@ TODO
 ----
 
 * OAuth to generate tokens for web users
-* Deploy to heroku
 * Rewrite as a js app that can run purely in the browser
 
 Ideas
