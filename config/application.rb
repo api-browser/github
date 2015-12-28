@@ -1,6 +1,16 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+#unused
+  #active_record/railtie
+  #action_mailer/railtie
+  #active_job/railtie
+  #action_cable/engine
+  #sprockets/railtie
+%w(
+  action_controller/railtie
+  action_view/railtie
+).each{|f| require f }
+
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -21,6 +31,6 @@ module ApiBrowser
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    #config.active_record.raise_in_transactional_callbacks = true
   end
 end
