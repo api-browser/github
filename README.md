@@ -8,7 +8,8 @@ Needs an oauth token defined outside the app root directory.
 TODO
 ----
 
-* use ENV for token
+* OAuth to generate tokens for web users
+* Deploy to heroku
 * Rewrite as a js app that can run purely in the browser
 
 Ideas
