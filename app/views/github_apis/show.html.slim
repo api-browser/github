@@ -1,3 +1,3 @@
-h1= params[:path].split("/").join(" ").humanize
+h1= (path || "").split("/").join(" ").humanize
 
 = render partial: "github_response", locals: {github_response: @github_response}

@@ -1,6 +1,5 @@
 class GithubApisController < ApplicationController
   def show
-    @github_headers = github_response.headers
     @github_response = GithubResponse.from(json, "root", github_response.headers["link"])
   end
 
@@ -25,6 +24,8 @@ class GithubApisController < ApplicationController
   def github_request_params
     request.query_parameters
   end
+
+  helper_method :path
 
   def path
     params[:path]
