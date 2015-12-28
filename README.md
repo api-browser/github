@@ -3,7 +3,7 @@ This repo
 
 A rails app for browsing the github hypermedia API.
 
-Needs an oauth token defined outside the app root directory.
+Needs an OAUTH_TOKEN env variable
 
 TODO
 ----
