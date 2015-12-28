@@ -11,6 +11,7 @@ group :test do
 end
 
 gem "slim"
+gem "rails_12factor"
 gem 'bootstrap', '~> 4.0.0.alpha3'
 
 source 'https://rails-assets.org' do
