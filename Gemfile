@@ -15,9 +15,12 @@ gem 'bootstrap', '~> 4.0.0.alpha3'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
+  gem 'rails-assets-octokat', '~> 0.4.15'
 end
 
 group :development, :test do
+  gem "better_errors"
+  gem "binding_of_caller"
   gem "byebug"
   gem "capybara", "~> 2.4"
 end
