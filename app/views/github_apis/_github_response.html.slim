@@ -1,9 +1,18 @@
 - if github_response.is_a? GithubResponseCollection
+  - if github_response.header_links.any?
+    - github_response.header_links.each do |name, template|
+      - if template
+        - if template.pattern =~ /{/
+          .btn.btn-sm.btn-primary onclick="expandForm(this, #{template.pattern.inspect})"
+            = name
+        - else
+          = link_to name, template.expand, class: "btn btn-sm btn-secondary"
+
+
   table.table.table-striped.table-bordered
     tbody
       - github_response.each do |g|
         = render partial: "github_response", locals: {github_response: g}
-
 - elsif github_response.present?
   tr
     td
@@ -11,7 +20,7 @@
         .col-xs-6
           code
             | {
-            - github_response.attributes.each do |k,v|
+            - github_response.attributes.each.with_index do |(k,v), index|
               - if v.is_a?(GithubResponseCollection)
                 - v.each do |g|
                   = render partial: "github_response", locals: {github_response: g}
@@ -22,7 +31,10 @@
                   .col-sm-6
                     .pull-right= "  #{k.as_json}:"
                   .col-sm-6
-                    span="#{v.as_json.inspect},"
+                    - if index == github_response.attributes.length - 1
+                      span="#{v.as_json.inspect}"
+                    -else
+                      span="#{v.as_json.inspect},"
 
             | }
         - if github_response.non_self_links.any?
@@ -34,6 +46,7 @@
                     = name
                 - else
                   = link_to name, template.expand, class: "btn btn-sm btn-secondary"
+
             - if github_response.nestings.any?
               table.table.table-striped.table-bordered
                 tbody

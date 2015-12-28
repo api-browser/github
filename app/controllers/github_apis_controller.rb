@@ -1,22 +1,36 @@
 class GithubApisController < ApplicationController
   def show
-    @github_response = GithubResponse.from(json)
+    @github_headers = github_response.headers
+    @github_response = GithubResponse.from(json, "root", github_response.headers["link"])
   end
 
   private
 
   def json
-    JSON.parse(github_response)
+    JSON.parse(github_response.body)
   end
 
   def github_response
-    path = params[:path]
-    response_headers = {"Authorization" => "token #{token}", "User-Agent" => "github_api_browser"}
+    @github_response ||= HTTParty.get(github_url, headers: github_request_headers, query: github_request_params)
+  end
 
-    HTTParty.get("https://api.github.com/#{path}", headers: response_headers).body
+  def github_url
+    "https://api.github.com/#{path}"
+  end
+
+  def github_request_headers
+    {"Authorization" => "token #{token}", "User-Agent" => "github_api_browser"}
+  end
+
+  def github_request_params
+    request.query_parameters
+  end
+
+  def path
+    params[:path]
   end
 
   def token
-    File.read("../OAUTH_TOKEN").chomp
+    ENV["OAUTH_TOKEN"]
   end
 end
